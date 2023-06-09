@@ -103,7 +103,7 @@
     margin: 0;
   }
   /* MODAL END */
-
+  /* CARD */
   .cards-container{
     display: flex;
     flex-wrap: wrap;
@@ -131,6 +131,6 @@
     text-align: start;
     padding-left: 10px;
   }
-
+  /* CARD END */
 
 </style>
