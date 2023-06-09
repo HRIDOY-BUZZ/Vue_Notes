@@ -1,3 +1,23 @@
+<script setup>
+  import { ref } from 'vue';
+
+  const notes = ref([])
+  const noteTitle = ref("")
+  const noteBody = ref("")
+
+  function getRandomColor() {
+    return "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+  }
+
+  const addNote = () => {
+    notes.value.push({
+      title: noteTitle.value,
+      body: noteBody.value,
+      date: new Date(),
+      color: getRandomColor()
+    })
+  }
+</script>
 <template>
   <main>
     <div class="container">
@@ -15,22 +35,23 @@
               <div class="modal-body">
                 <div class="mb-3">
                   <label for="note_title" class="form-label">Note Title</label>
-                  <input type="text" class="form-control" id="note_title">
+                  <input type="text" v-model="noteTitle" class="form-control" id="note_title">
                 </div>
                 <div class="mb-3">
                   <label for="note_body" class="form-label">Note Body</label>
-                  <textarea class="form-control" id="note_body" rows="3"></textarea>
+                  <textarea class="form-control" v-model="noteBody" id="note_body" rows="3"></textarea>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Add Note</button>
+                <button type="button" class="btn btn-success" @click="addNote" data-bs-dismiss="modal">Add Note</button>
               </div>
             </div>
           </div>
         </div>
         <!-- MODAL END -->
       </header>
+      {{ notes }}
       <div class="container cards-container">
         <button class="card">
           <div class="card-body">
