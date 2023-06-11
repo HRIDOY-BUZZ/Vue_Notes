@@ -4,12 +4,20 @@
   const notes = ref([])
   const noteTitle = ref("")
   const noteBody = ref("")
+  const error = ref("")
 
   function getRandomColor() {
     return "hsl(" + Math.random() * 360 + ", 100%, 75%)";
   }
 
   const addNote = () => {
+    if(noteTitle.value.length < 2) {
+      return error.value = "A Title should at least be 2 characters long.";
+    }
+
+    if(noteBody.value.length < 5) {
+      return error.value = "Too short for a note to save!";
+    }
     notes.value.push({
       title: noteTitle.value,
       body: noteBody.value,
@@ -18,6 +26,8 @@
     })
     noteTitle.value = "";
     noteBody.value = "";
+    error.value = "";
+    document.getElementById('close').click();
   }
 </script>
 <template>
@@ -32,21 +42,24 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="AddNewNote">Add New Note</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="mb-3">
                   <label for="note_title" class="form-label">Note Title</label>
-                  <input type="text" v-model="noteTitle" class="form-control" id="note_title">
+                  <input type="text" v-model.trim="noteTitle" class="form-control" id="note_title">
                 </div>
                 <div class="mb-3">
                   <label for="note_body" class="form-label">Note Body</label>
-                  <textarea class="form-control" v-model="noteBody" id="note_body" rows="3"></textarea>
+                  <textarea class="form-control" v-model.trim="noteBody" id="note_body" rows="3"></textarea>
+                </div>
+                <div v-if="error">
+                  <p class="text-danger fst-italic fw-bold">{{ error }}</p>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" @click="addNote" data-bs-dismiss="modal">Add Note</button>
+                <button type="button" class="btn btn-success" @click="addNote">Add Note</button>
               </div>
             </div>
           </div>

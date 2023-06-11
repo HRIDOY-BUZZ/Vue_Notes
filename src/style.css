@@ -49,7 +49,7 @@ button.add{
 }
 
 .modal-footer{
-    justify-content: space-between;
+    justify-content: space-around !important;
     padding: 10px;
 }
 
